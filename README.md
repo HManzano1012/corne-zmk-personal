@@ -19,6 +19,7 @@ A complete ZMK configuration for the Corne keyboard with Nice!Nano v2 controller
 4. [Nice!View Artwork System](#niceview-artwork-system)
 5. [Configuration](#configuration)
    - [Keymap Customization](#keymap-customization)
+   - [Keymap Layout](#keymap-layout)
    - [Display Settings](#display-settings)
 6. [Building Firmware](#building-firmware)
 7. [Image Conversion Details](#image-conversion-details)
@@ -164,9 +165,69 @@ Edit `config/corne.keymap` to customize your keyboard layout:
 
 **Current Layout Features:**
 - Home row modifiers (Alt, Shift, Ctrl, GUI)
-- 3 layers: base typing, media/navigation, symbols/numbers
+- 4 layers: base typing, media/navigation, numbers, symbols/Bluetooth
 - Caps Lock combo (both thumb keys)
 - Custom shortcuts for window management
+
+## 🗝️ **Keymap Layout**
+
+### Layer 0 (Base - QWERTY)
+The main typing layer with home row modifiers for efficient typing.
+
+| Left Hand | | | | | | | | | | | Right Hand |
+|-----------|---|---|---|---|---|---|---|---|---|---|---|
+| `Tab` | `Alt+Q` | `Shift+W` | `Ctrl+E` | `GUI+R` | `T` | `Y` | `GUI+U` | `Ctrl+I` | `Shift+O` | `Alt+P` | `\` |
+| `Ctrl+B` | `A` | `S` | `D` | `F` | `G` | `H` | `J` | `K` | `L` | `;` | `'` |
+| `MO(1)` | `Z` | `X` | `C` | `V` | `B` | `N` | `M` | `,` | `.` | `/` | `` ` `` |
+| | | | `MO(2)` | `Backspace` | `ALL+Esc` | `Enter` | `Space` | `MO(3)` | | | |
+
+### Layer 1 (Media & Navigation)
+Media controls, arrow keys, and window management shortcuts.
+
+| Left Hand | | | | | | | | | | | Right Hand |
+|-----------|---|---|---|---|---|---|---|---|---|---|---|
+| - | `Bright-` | `Bright+` | `Next` | `Play/Pause` | `Next` | `Vol-` | `Mute` | `Vol+` | - | - | - |
+| - | - | - | - | `Ctrl+Alt+F` | - | `←` | `↓` | `↑` | `→` | `Trans` | `Trans` |
+| `Shift` | `Trans` | `Trans` | `Alt+Ctrl+C` | `Trans` | `Trans` | `Alt+Ctrl+←` | `Alt+Ctrl+↓` | `Alt+Ctrl+↑` | `Alt+Ctrl+→` | `Trans` | `Trans` |
+| | | | `GUI` | `Trans` | `Space` | `Alt+Ctrl+Enter` | `Alt+Ctrl+GUI+←` | `Alt+Ctrl+GUI+→` | | | |
+
+### Layer 2 (Numbers)
+Number row with home row modifiers and some punctuation.
+
+| Left Hand | | | | | | | | | | | Right Hand |
+|-----------|---|---|---|---|---|---|---|---|---|---|---|
+| `=` | `1` | `Shift+2` | `Ctrl+3` | `GUI+4` | `5` | `6` | `GUI+7` | `Ctrl+8` | `Shift+9` | `0` | `-` |
+| `Caps Lock` | `Trans` | `Trans` | `Trans` | `Trans` | `Trans` | - | - | - | - | - | - |
+| - | `Trans` | `Trans` | `Trans` | `Trans` | `Trans` | - | - | `,` | `.` | - | - |
+| | | | `GUI` | `Trans` | `Space` | `Enter` | `Trans` | `Alt` | | | |
+
+### Layer 3 (Symbols & Bluetooth)
+Special characters, brackets, and Bluetooth controls.
+
+| Left Hand | | | | | | | | | | | Right Hand |
+|-----------|---|---|---|---|---|---|---|---|---|---|---|
+| `+` | `!` | `@` | `#` | `$` | `%` | `^` | `&` | `*` | `(` | `)` | `_` |
+| `{` | `}` | `[` | `]` | `(` | `)` | `Trans` | `Trans` | `Trans` | `Trans` | `Trans` | `Trans` |
+| `BT Clear` | `BT 0` | `BT 1` | `BT 2` | `BT 3` | `BT 4` | `Trans` | `Trans` | `Trans` | `Trans` | `Trans` | `Trans` |
+| | | | - | `Trans` | `Trans` | `Trans` | `Trans` | `Trans` | | | |
+
+### 🔗 **Combos & Special Keys**
+- **Caps Lock**: Press both thumb keys (positions 37 + 40)
+- **ALL Modifier**: Alt + Shift + GUI + Ctrl (mapped to Esc on base layer)
+- **Home Row Mods**: Letters act as modifiers when held (Alt, Shift, Ctrl, GUI)
+- **Layer Access**: 
+  - `MO(1)`: Media/Navigation layer (hold)
+  - `MO(2)`: Numbers layer (hold)  
+  - `MO(3)`: Symbols/Bluetooth layer (hold)
+
+### 🎯 **Key Legend**
+- **MO(n)**: Momentary layer activation
+- **Trans**: Transparent (passes through to lower layer)
+- **ALL**: Alt + Shift + GUI + Ctrl macro
+- **BT n**: Bluetooth profile selection (0-4)
+- **BT Clear**: Clear all Bluetooth pairings
+- **GUI**: Windows/Cmd key
+- **Modifier combinations**: Key acts as modifier when held, regular key when tapped
 
 ### Display Settings
 
