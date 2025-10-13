@@ -120,7 +120,7 @@ def process_image(path: Path, args):
         if not args.no_rotate:
             im = im.transpose(Image.ROTATE_270)
 
-        bw = to_1bpp(im, dither=not args.no_dither, invert=True)
+        bw = to_1bpp(im, dither=not args.no_dither, invert=False)
         packed = pack_bits_1bpp(bw, lsb_first=args.lsb_first)
 
         outdir = Path(args.outdir)
