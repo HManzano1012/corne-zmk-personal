@@ -4,10 +4,11 @@ A complete ZMK configuration for the Corne keyboard with Nice!Nano v2 controller
 
 ## 🎯 **Quick Overview**
 
-- **Keyboard**: Corne (3×6 + 3 thumb keys, split layout)
+- **Keyboard**: Corne (3×6 + 3 thumb keys, split layout — outer columns unused)
 - **MCUs**: Nice!Nano v2 (wireless, split left/right halves)
 - **Display**: Nice!View OLED with custom status screen and rotating artwork
-- **Features**: Custom keymap, automated image conversion, wireless connectivity
+- **ZMK Version**: Pinned to **v0.3.0** for stability
+- **Features**: Custom keymap with tap-preferred hold-taps, bracket combos, automated image conversion, wireless connectivity
 
 ## 📋 **Table of Contents**
 
@@ -71,8 +72,8 @@ A complete ZMK configuration for the Corne keyboard with Nice!Nano v2 controller
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/yourusername/zmk-config.git
-   cd zmk-config
+   git clone https://github.com/yourusername/corne-zmk.git
+   cd corne-zmk
    ```
 
 2. **Build locally** (requires ZMK development environment):
@@ -87,11 +88,11 @@ A complete ZMK configuration for the Corne keyboard with Nice!Nano v2 controller
 ##  **Repository Structure**
 
 ```
-zmk-config/
+corne-zmk/
 ├── config/                          # ZMK configuration files
 │   ├── corne.keymap                 # Keymap layers, combos, and behaviors
 │   ├── corne.conf                   # ZMK settings (enables custom status screen)
-│   └── west.yml                     # ZMK upstream reference
+│   └── west.yml                     # ZMK upstream reference (pinned to v0.3.0)
 ├── boards/shields/nice_view_custom/ # Custom Nice!View shield
 │   ├── widgets/                     # Custom widget implementations
 │   │   ├── peripheral_status.c/.h   # Main status widget (art + status)
@@ -164,70 +165,117 @@ Edit `config/corne.keymap` to customize your keyboard layout:
 - **Macros**: Create custom key sequences
 
 **Current Layout Features:**
-- Home row modifiers (Alt, Shift, Ctrl, GUI)
-- 4 layers: base typing, media/navigation, numbers, symbols/Bluetooth
-- Caps Lock combo (both thumb keys)
-- Custom shortcuts for window management
+- Top-row home row modifiers (Alt, Shift, Ctrl, GUI) using tap-preferred hold-taps (`mt_repeat`)
+- 5 layers: base typing, media/navigation, numbers, symbols/Bluetooth, right-hand modifiers
+- Caps Lock combo (both inner thumb keys)
+- Bracket/paren combos (adjacent key pairs)
+- Custom shortcuts for window management (Rectangle)
 
 ## 🗝️ **Keymap Layout**
 
-### Layer 0 (Base - QWERTY)
-The main typing layer with home row modifiers for efficient typing.
+> **Note:** The Corne's outer columns and outer thumb keys are set to `&none` — the effective layout is 34 keys (5 columns + 2 thumbs per hand), matching a Ferris Sweep.
 
-| Left Hand | | | | | | | | | | | Right Hand |
-|-----------|---|---|---|---|---|---|---|---|---|---|---|
-| `Tab` | `Alt+Q` | `Shift+W` | `Ctrl+E` | `GUI+R` | `T` | `Y` | `GUI+U` | `Ctrl+I` | `Shift+O` | `Alt+P` | `\` |
-| `Ctrl+B` | `A` | `S` | `D` | `F` | `G` | `H` | `J` | `K` | `L` | `;` | `'` |
-| `MO(1)` | `Z` | `X` | `C` | `V` | `B` | `N` | `M` | `,` | `.` | `/` | `` ` `` |
-| | | | `MO(2)` | `Backspace` | `ALL+Esc` | `Enter` | `Space` | `MO(3)` | | | |
+### Layer 0: Base (QWERTY with home row mods on top row)
 
-### Layer 1 (Media & Navigation)
-Media controls, arrow keys, and window management shortcuts.
+```text
+┌─────┬─────┬─────┬─────┬─────┐       ┌─────┬─────┬─────┬─────┬─────┐
+│Q/Alt│W/Sft│E/Ctl│R/Gui│  T  │       │  Y  │U/Gui│I/Ctl│O/Sft│P/Alt│
+├─────┼─────┼─────┼─────┼─────┤       ├─────┼─────┼─────┼─────┼─────┤
+│  A  │  S  │  D  │  F  │  G  │       │  H  │  J  │  K  │  L  │;/L4 │
+├─────┼─────┼─────┼─────┼─────┤       ├─────┼─────┼─────┼─────┼─────┤
+│Z/L1 │  X  │  C  │  V  │  B  │       │  N  │  M  │  ,  │  .  │  /  │
+└─────┴─────┴─────┴─────┴─────┘       └─────┴─────┴─────┴─────┴─────┘
+                  ┌─────┐                   ┌─────┐
+                  │Bs/L2├─────┐       ┌─────┤Sp/L3│
+                  └─────┤Esc/H│       │ Ent ├─────┘
+                        └─────┘       └─────┘
+```
 
-| Left Hand | | | | | | | | | | | Right Hand |
-|-----------|---|---|---|---|---|---|---|---|---|---|---|
-| - | `Bright-` | `Bright+` | `Next` | `Play/Pause` | `Next` | `Vol-` | `Mute` | `Vol+` | - | - | - |
-| - | - | - | - | `Ctrl+Alt+F` | - | `←` | `↓` | `↑` | `→` | `Trans` | `Trans` |
-| `Shift` | `Trans` | `Trans` | `Alt+Ctrl+C` | `Trans` | `Trans` | `Alt+Ctrl+←` | `Alt+Ctrl+↓` | `Alt+Ctrl+↑` | `Alt+Ctrl+→` | `Trans` | `Trans` |
-| | | | `GUI` | `Trans` | `Space` | `Alt+Ctrl+Enter` | `Alt+Ctrl+GUI+←` | `Alt+Ctrl+GUI+→` | | | |
+### Layer 1: Media/Navigation (accessed via Z hold)
 
-### Layer 2 (Numbers)
-Number row with home row modifiers and some punctuation.
+```text
+┌─────┬─────┬─────┬─────┬─────┐       ┌─────┬─────┬─────┬─────┬─────┐
+│Bri- │Bri+ │Prev │Play │Next │       │Vol- │Mute │Vol+ │     │  \  │
+├─────┼─────┼─────┼─────┼─────┤       ├─────┼─────┼─────┼─────┼─────┤
+│     │     │     │RectF│     │       │  ←  │  ↓  │  ↑  │  →  │  '  │
+├─────┼─────┼─────┼─────┼─────┤       ├─────┼─────┼─────┼─────┼─────┤
+│█████│Shift│RectC│     │     │       │RctLH│RctBH│RctTH│RctRH│  `  │
+└─────┴─────┴─────┴─────┴─────┘       └─────┴─────┴─────┴─────┴─────┘
+                  ┌─────┐                   ┌─────┐
+                  │     ├─────┐       ┌─────┤RctMV│
+                  └─────┤Space│       │RctEN├─────┘
+                        └─────┘       └─────┘
+```
 
-| Left Hand | | | | | | | | | | | Right Hand |
-|-----------|---|---|---|---|---|---|---|---|---|---|---|
-| `=` | `1` | `Shift+2` | `Ctrl+3` | `GUI+4` | `5` | `6` | `GUI+7` | `Ctrl+8` | `Shift+9` | `0` | `-` |
-| `Caps Lock` | `Trans` | `Trans` | `Trans` | `Trans` | `Trans` | - | - | - | - | - | - |
-| - | `Trans` | `Trans` | `Trans` | `Trans` | `Trans` | - | - | `,` | `.` | - | - |
-| | | | `GUI` | `Trans` | `Space` | `Enter` | `Trans` | `Alt` | | | |
+### Layer 2: Numbers (accessed via Backspace hold)
 
-### Layer 3 (Symbols & Bluetooth)
-Special characters, brackets, and Bluetooth controls.
+```text
+┌─────┬─────┬─────┬─────┬─────┐       ┌─────┬─────┬─────┬─────┬─────┐
+│  1  │2/Sft│3/Ctl│4/Gui│  5  │       │  6  │7/Gui│8/Ctl│9/Sft│  0  │
+├─────┼─────┼─────┼─────┼─────┤       ├─────┼─────┼─────┼─────┼─────┤
+│  =  │  -  │  '  │Cmd+B│     │       │     │     │     │     │     │
+├─────┼─────┼─────┼─────┼─────┤       ├─────┼─────┼─────┼─────┼─────┤
+│ MO1 │     │     │     │     │       │     │     │  ,  │  .  │     │
+└─────┴─────┴─────┴─────┴─────┘       └─────┴─────┴─────┴─────┴─────┘
+                  ┌─────┐                   ┌─────┐
+                  │█████├─────┐       ┌─────┤RAlt │
+                  └─────┤Space│       │ Ent ├─────┘
+                        └─────┘       └─────┘
+```
 
-| Left Hand | | | | | | | | | | | Right Hand |
-|-----------|---|---|---|---|---|---|---|---|---|---|---|
-| `+` | `!` | `@` | `#` | `$` | `%` | `^` | `&` | `*` | `(` | `)` | `_` |
-| `{` | `}` | `[` | `]` | `(` | `)` | `Trans` | `Trans` | `Trans` | `Trans` | `Trans` | `Trans` |
-| `BT Clear` | `BT 0` | `BT 1` | `BT 2` | `BT 3` | `BT 4` | `Trans` | `Trans` | `Trans` | `Trans` | `Trans` | `Trans` |
-| | | | - | `Trans` | `Trans` | `Trans` | `Trans` | `Trans` | | | |
+### Layer 3: Symbols & Bluetooth (accessed via Space hold)
 
-### 🔗 **Combos & Special Keys**
-- **Caps Lock**: Press both thumb keys (positions 37 + 40)
-- **ALL Modifier**: Alt + Shift + GUI + Ctrl (mapped to Esc on base layer)
-- **Home Row Mods**: Letters act as modifiers when held (Alt, Shift, Ctrl, GUI)
-- **Layer Access**: 
-  - `MO(1)`: Media/Navigation layer (hold)
-  - `MO(2)`: Numbers layer (hold)  
-  - `MO(3)`: Symbols/Bluetooth layer (hold)
+```text
+┌─────┬─────┬─────┬─────┬─────┐       ┌─────┬─────┬─────┬─────┬─────┐
+│  !  │  @  │  #  │  $  │  %  │       │  ^  │  &  │  *  │  (  │  -  │
+├─────┼─────┼─────┼─────┼─────┤       ├─────┼─────┼─────┼─────┼─────┤
+│     │     │  {  │  [  │  (  │       │  )  │  ]  │  }  │     │  =  │
+├─────┼─────┼─────┼─────┼─────┤       ├─────┼─────┼─────┼─────┼─────┤
+│BT 0 │BT 1 │BT 2 │BT 3 │BT 4 │       │BtClr│     │     │     │     │
+└─────┴─────┴─────┴─────┴─────┘       └─────┴─────┴─────┴─────┴─────┘
+                  ┌─────┐                   ┌─────┐
+                  │     ├─────┐       ┌─────┤█████│
+                  └─────┤     │       │     ├─────┘
+                        └─────┘       └─────┘
+```
+
+### Layer 4: Right-hand mods (accessed via ; hold)
+
+```text
+┌─────┬─────┬─────┬─────┬─────┐       ┌─────┬─────┬─────┬─────┬─────┐
+│ Tab │     │     │     │     │       │     │     │     │     │     │
+├─────┼─────┼─────┼─────┼─────┤       ├─────┼─────┼─────┼─────┼─────┤
+│     │     │     │     │     │       │     │ Cmd │ Ctl │Shift│█████│
+├─────┼─────┼─────┼─────┼─────┤       ├─────┼─────┼─────┼─────┼─────┤
+│     │     │     │     │     │       │     │     │     │     │     │
+└─────┴─────┴─────┴─────┴─────┘       └─────┴─────┴─────┴─────┴─────┘
+                  ┌─────┐                   ┌─────┐
+                  │     ├─────┐       ┌─────┤     │
+                  └─────┤     │       │     ├─────┘
+                        └─────┘       └─────┘
+```
+
+### 🔗 **Combos**
+
+| Combo | Keys | Result |
+|-------|------|--------|
+| Caps Lock | Both inner thumbs | `CAPSLOCK` |
+| `(` | R + T | Left parenthesis |
+| `)` | Y + U | Right parenthesis |
+| `[` | F + G | Left bracket |
+| `]` | H + J | Right bracket |
+| `{` | V + B | Left brace |
+| `}` | N + M | Right brace |
 
 ### 🎯 **Key Legend**
-- **MO(n)**: Momentary layer activation
-- **Trans**: Transparent (passes through to lower layer)
-- **ALL**: Alt + Shift + GUI + Ctrl macro
-- **BT n**: Bluetooth profile selection (0-4)
-- **BT Clear**: Clear all Bluetooth pairings
-- **GUI**: Windows/Cmd key
-- **Modifier combinations**: Key acts as modifier when held, regular key when tapped
+- **Q/Alt**: Tap for Q, hold for Left Alt (tap-preferred, enables key repeat)
+- **;/L4**: Tap for semicolon, hold for Layer 4 (right-hand modifiers)
+- **Z/L1, Bs/L2, Sp/L3**: Layer-tap keys (tap-preferred)
+- **Esc/H**: Tap for Escape, hold for Hyper (Alt+Shift+GUI+Ctrl)
+- **█████**: Current layer activation key
+- **RectF/C/EN/LH/BH/TH/RH/MV**: Rectangle window manager shortcuts
+- **BT 0-4**: Bluetooth profile selection
+- **BtClr**: Clear all Bluetooth pairings
 
 ### Display Settings
 
