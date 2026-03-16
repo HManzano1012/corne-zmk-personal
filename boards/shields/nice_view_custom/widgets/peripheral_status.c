@@ -23,20 +23,16 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
 #include "peripheral_status.h"
 
-LV_IMG_DECLARE(mikasa1);
-LV_IMG_DECLARE(mikasa2);
-LV_IMG_DECLARE(mina);
-LV_IMG_DECLARE(mina2);
-LV_IMG_DECLARE(palestine);
+LV_IMG_DECLARE(luffy);
+LV_IMG_DECLARE(mika);
 LV_IMG_DECLARE(twice);
+LV_IMG_DECLARE(zoro);
 
 const lv_img_dsc_t *anim_imgs[] = {
-    &mikasa1,
-    &mikasa2,
-    &mina,
-    &mina2,
-    &palestine,
+    &luffy,
+    &mika,
     &twice,
+    &zoro,
 };
 
 static sys_slist_t widgets = SYS_SLIST_STATIC_INIT(&widgets);
