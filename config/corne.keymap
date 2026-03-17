@@ -27,19 +27,41 @@
     };
 
     /* Hyprland Macros */
-    macros {
+ macros {
+        // Monitor switch: GUI + ALT + L
         mon_sw: mon_sw {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            bindings = <&kp LGUI &kp LALT &kp L>;
+            wait-ms = <0>;
+            tap-ms = <0>;
+            bindings = <&macro_press &kp LGUI &kp LALT>, 
+                       <&macro_tap &kp L>, 
+                       <&macro_release &kp LGUI &kp LALT>;
         };
-        ws1: ws1 { compatible = "zmk,behavior-macro"; #binding-cells = <0>; bindings = <&kp LGUI &kp N1>; };
-        ws2: ws2 { compatible = "zmk,behavior-macro"; #binding-cells = <0>; bindings = <&kp LGUI &kp N2>; };
-        ws3: ws3 { compatible = "zmk,behavior-macro"; #binding-cells = <0>; bindings = <&kp LGUI &kp N3>; };
-        ws4: ws4 { compatible = "zmk,behavior-macro"; #binding-cells = <0>; bindings = <&kp LGUI &kp N4>; };
-        ws5: ws5 { compatible = "zmk,behavior-macro"; #binding-cells = <0>; bindings = <&kp LGUI &kp N5>; };
-    };
 
+        // Workspace 1: GUI + 1 (Simultaneous)
+        ws1: ws1 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <0>;
+            tap-ms = <0>;
+            bindings = <&macro_press &kp LGUI>, 
+                       <&macro_tap &kp N1>, 
+                       <&macro_release &kp LGUI>;
+        };
+
+        // Workspace 2: GUI + 2 (Simultaneous)
+        ws2: ws2 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <0>;
+            tap-ms = <0>;
+            bindings = <&macro_press &kp LGUI>, 
+                       <&macro_tap &kp N2>, 
+                       <&macro_release &kp LGUI>;
+        };
+        
+    };
     keymap {
         compatible = "zmk,keymap";
 
