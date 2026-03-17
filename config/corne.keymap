@@ -14,17 +14,6 @@
 
 / {
     /* Home Row Mod Behavior */
-    behaviors {
-        hm: homerow_mods {
-            compatible = "zmk,behavior-hold-tap";
-            label = "HOMEROW_MODS";
-            #binding-cells = <2>;
-            tapping-term-ms = <200>;
-            quick-tap-ms = <0>;
-            flavor = "balanced";
-            bindings = <&kp>, <&kp>;
-        };
-    };
 
     /* Hyprland Macros */
     macros {
@@ -106,7 +95,7 @@
 
         lower_layer {
             bindings = <
-&mon_sw   &kp C_PREV  &kp C_NEXT  &kp C_VOL_DN &kp C_VOL_UP &kp C_PP       &kp C_BRI_DEC &kp C_BRI_INC &bt BT_SEL 0 &bt BT_SEL 1 &none    &trans
+&mon_sw   &kp C_PREV  &kp C_NEXT  &kp C_VOL_DN &kp C_VOL_UP &kp C_PP       &kp C_BRI_DEC &kp C_BRI_INC &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_CLR
 &trans    &ws1        &ws2        &ws3         &ws4         &ws5           &kp LEFT      &kp DOWN      &kp UP        &kp RIGHT    &kp K_APP &none
 &kp F1    &kp F2      &kp F3      &kp F4       &kp F5       &kp F6         &kp LBRC      &kp RBRC      &kp LPAR      &kp RPAR     &kp BSLH &trans
                          &kp LGUI &trans &kp SPACE                     &kp RET &trans &kp DEL
