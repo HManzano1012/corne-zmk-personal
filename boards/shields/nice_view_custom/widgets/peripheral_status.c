@@ -23,11 +23,13 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
 #include "peripheral_status.h"
 
+LV_IMG_DECLARE(jojo);
 LV_IMG_DECLARE(luffy);
 LV_IMG_DECLARE(survey);
 LV_IMG_DECLARE(twice);
 
 const lv_img_dsc_t *anim_imgs[] = {
+    &jojo,
     &luffy,
     &survey,
     &twice,
